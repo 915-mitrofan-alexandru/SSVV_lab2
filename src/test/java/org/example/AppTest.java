@@ -1,6 +1,7 @@
 package org.example;
 
 import domain.Student;
+import domain.Tema;
 import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
@@ -128,6 +129,32 @@ public class AppTest
             service.addStudent(student);
         } catch (ValidationException e) {
             fail("Expected no ValidationException to be thrown");
+        }
+    }
+
+    public void testAssignmentIDEmpty()
+    {
+        var service = Service.getService();
+        Tema assignment = new Tema("", "Tema 1", 8,9);
+
+        try {
+            service.addTema(assignment);
+            fail("Expected an ValidationException to be thrown");
+        } catch (ValidationException e) {
+            assertEquals("Numar tema invalid!", e.getMessage());
+        }
+    }
+
+    public void testAssignmentDescriptionEmpty()
+    {
+        var service = Service.getService();
+        Tema assignment = new Tema("1", "", 8,9);
+
+        try {
+            service.addTema(assignment);
+            fail("Expected an ValidationException to be thrown");
+        } catch (ValidationException e) {
+            assertEquals("Descriere invalida!", e.getMessage());
         }
     }
 }
