@@ -157,4 +157,42 @@ public class AppTest
             assertEquals("Descriere invalida!", e.getMessage());
         }
     }
+
+    public void testAssignmentDeadlineInvalid()
+    {
+        var service = Service.getService();
+        Tema assignment = new Tema("1", "a", -1,9);
+
+        try {
+            service.addTema(assignment);
+            fail("Expected an ValidationException to be thrown");
+        } catch (ValidationException e) {
+            assertEquals("Deadlineul trebuie sa fie intre 1-14.", e.getMessage());
+        }
+    }
+
+    public void testAssignmentReceivedInvalid()
+    {
+        var service = Service.getService();
+        Tema assignment = new Tema("1", "a", 2,-1);
+
+        try {
+            service.addTema(assignment);
+            fail("Expected an ValidationException to be thrown");
+        } catch (ValidationException e) {
+            assertEquals("Saptamana primirii trebuie sa fie intre 1-14.", e.getMessage());
+        }
+    }
+
+    public void testAllAssignmentOk()
+    {
+        var service = Service.getService();
+        Tema assignment = new Tema("1", "a", 2,3);
+
+        try {
+            service.addTema(assignment);
+        } catch (ValidationException e) {
+            fail("Expected no ValidationException to be thrown");
+        }
+    }
 }
