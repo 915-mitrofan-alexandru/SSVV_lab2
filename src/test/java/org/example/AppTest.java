@@ -1,5 +1,6 @@
 package org.example;
 
+import domain.Nota;
 import domain.Student;
 import domain.Tema;
 import junit.framework.Test;
@@ -8,6 +9,8 @@ import junit.framework.TestSuite;
 import service.Service;
 import validation.StudentValidator;
 import validation.ValidationException;
+
+import java.time.LocalDate;
 
 /**
  * Unit test for simple App.
@@ -195,4 +198,47 @@ public class AppTest
             fail("Expected no ValidationException to be thrown");
         }
     }
+
+    // incremental integration testing
+    public void testAddStudentIncremental()
+    {
+        var service = Service.getService();
+        Student student = new Student("1", "Alex", 1, "email");
+
+        try {
+            service.addStudent(student);
+        } catch (ValidationException e) {
+            fail("Expected no ValidationException to be thrown");
+        }
+    }
+
+    public void testAddAssignmentIncremental()
+    {
+        var service = Service.getService();
+        Tema assignment = new Tema("1", "tema 1", 2, 5);
+
+        try {
+            testAddStudentIncremental();
+            service.addTema(assignment);
+        } catch (ValidationException e) {
+            fail("Expected no ValidationException to be thrown");
+        }
+    }
+
+    public void testAddGradeIncremental()
+    {
+        var service = Service.getService();
+        Nota nota = new Nota("1", "1", "1", 10, LocalDate.now());
+
+        try {
+            testAddStudentIncremental();
+            testAddAssignmentIncremental();
+            service.addNota(nota, "gg");
+        } catch (ValidationException e) {
+
+        }
+    }
+
+
+
 }
